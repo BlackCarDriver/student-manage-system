@@ -1,0 +1,10 @@
+.exe
+.sdf
+.sln
+.pdb
+.ilk
+.suo
+.filters
+.vcxproj
+/Debug
+
