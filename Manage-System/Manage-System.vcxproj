@@ -81,11 +81,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="manager.h" />
     <ClInclude Include="mysql-package.h" />
+    <ClInclude Include="student.h" />
+    <ClInclude Include="teacher.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Manager.cpp" />
     <ClCompile Include="SqlPackage.cpp" />
+    <ClCompile Include="Student.cpp" />
+    <ClCompile Include="Teacher.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="table.sql" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,3 +1,7 @@
+#include<string>
+#include<iostream>
+using namespace std;
+
 class SqlPackage {
 private:
 	MYSQL conn;
@@ -8,4 +12,5 @@ public:
 	SqlPackage();
 	~SqlPackage();
 	void test();
+	int login(string id, string password);
 };

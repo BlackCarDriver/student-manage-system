@@ -18,6 +18,15 @@
     <ClInclude Include="mysql-package.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="teacher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="student.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -26,5 +35,19 @@
     <ClCompile Include="SqlPackage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Teacher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Student.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="table.sql">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
