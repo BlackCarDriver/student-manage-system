@@ -79,3 +79,5 @@ INSERT INTO t_select(stdid,courid)VALUES('1234565','00003');
 INSERT INTO t_select(stdid,courid)VALUES('1234563','00003');
 INSERT INTO t_select(stdid,courid)VALUES('1234561','00003');
 
+---#########################################################
+

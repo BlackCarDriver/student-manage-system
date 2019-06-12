@@ -46,6 +46,7 @@ int login(){
 }
 
 void printfWelcome(){
+	system("cls");
 	puts("========================================================");
 	puts("=                                                      =");
 	puts("=         Welcome to BlackCarDriver Club System        =");
@@ -57,6 +58,11 @@ void printfWelcome(){
 }
 
 int main(){
+	//sql.testQuery();
+	//sql.testExec();
+	sql.testOther();
+
+	return 0;
 	printfWelcome();
 	int status;
 	while (status = login()){
