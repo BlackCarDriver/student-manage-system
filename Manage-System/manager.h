@@ -1,4 +1,5 @@
-class Manager {
+#pragma once
+class Manager{
 private:
 	void printfFunction();
 public:

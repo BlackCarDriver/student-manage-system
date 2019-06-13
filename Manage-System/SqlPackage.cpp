@@ -1,3 +1,4 @@
+#pragma once
 #include<iostream>
 #include<stdio.h>
 #include<string>
@@ -5,7 +6,8 @@
 #include<winsock.h>
 #include<mysql.h>
 #include<vector>
-#include"mysql-package.h"
+#include"SqlPackage.h"
+using namespace std;
 
 #define SCUUEED 1
 #define FATAL	-1
@@ -14,13 +16,14 @@
 #define	STUDENT	9
 #define MANAGER	27
 
-using namespace std;
 
 const char* host = "localhost";
 const char* user = "root";
 const char* password = "123456";
 const char* database = "school";
 const  int port = 3306;
+
+
 
 
 SqlPackage::SqlPackage(){
@@ -46,9 +49,9 @@ int SqlPackage::init(){
 	return	SCUUEED;
 }
 
-void SqlPackage::testQuery(){	
+void SqlPackage::testQuery(){
 	string queryStr = "select * from t_account";
-	string result = query(queryStr,15);
+	string result = query(queryStr, 15);
 	cout << result << endl;
 }
 
@@ -66,15 +69,18 @@ void SqlPackage::testExec(){
 }
 
 void SqlPackage::testOther(){
-	makeSql("select * from t_account where name = $1",{ "test" });
+	cout << "test other \n";
 }
 
 string SqlPackage::query(string queryStr, int interval){
 	int status = mysql_query(&conn, queryStr.c_str());
+	if (status != 0){
+		return "query error ... \n";
+	}
 	res_set = mysql_store_result(&conn);
 	int count = mysql_num_rows(res_set);
 	if (count <= 0){
-		return "no result ... ";
+		return "no result ... \n";
 	}
 	string result = "";
 	result += getTableHead(res_set, interval);
@@ -88,6 +94,27 @@ string SqlPackage::query(string queryStr, int interval){
 		result += "\n";
 	}
 	mysql_free_result(res_set);
+	return result;
+}
+
+res_row SqlPackage::queryRow(string queryStr){
+	res_row result;
+	int status = mysql_query(&conn, queryStr.c_str());
+	if (status != 0) {
+		cout << "query row error ... \n";
+		return result;
+	}
+	res_set = mysql_store_result(&conn);
+	int count = mysql_num_rows(res_set);
+	if (count == 0){
+		cout << "no result ... ";
+		return result;
+	}
+	row = mysql_fetch_row(res_set);
+	for (int i = 0; i< mysql_num_fields(res_set); i++){
+		string tmp = (row[i] != NULL ? row[i] : "NULL");
+		result.push_back(tmp);
+	}
 	return result;
 }
 
@@ -109,7 +136,7 @@ string SqlPackage::getTableHead(MYSQL_RES* res, int interval){
 }
 
 int SqlPackage::exec(string ope){
-	if ( mysql_query(&conn, ope.c_str()) ){
+	if (mysql_query(&conn, ope.c_str())){
 		return FATAL;
 	}
 	return SCUUEED;
@@ -118,20 +145,36 @@ int SqlPackage::exec(string ope){
 //return worng or the identifi of user
 int SqlPackage::login(string id, string password){
 	int result = WORNG;
-	//do something....
-	if (id == "teacher") result = TEACHER;
-	if (id == "student") result = STUDENT;
-	if (id == "manager") result == MANAGER;
-	//do something...
+	string loginTemplace = "select type from t_account where id = '$1' and password = '$2'";
+	string loginSql = makeSql(loginTemplace, { id, password });
+	res_row res = queryRow(loginSql);
+	if (res.size() >0){
+		cout << res[0] << endl;
+		if (res[0] == "teacher") result = TEACHER;
+		if (res[0] == "student") result = STUDENT;
+		if (res[0] == "manager") result == MANAGER;
+	}
+	else{
+		puts("Password worng or account not exist...");
+		result = WORNG;
+	}
 	return result;
 }
 
 string SqlPackage::makeSql(string format, vector<string> strVec){
 	string result = format;
-	for (int i = 1; i <= strVec.size(); i++){
-		string target = "$" + to_string(i);
+	for (int i = 0; i < strVec.size(); i++){
+		string target = "$" + to_string(i + 1);
 		auto p = result.find(target);
-		result = result.replace(p, 2 , strVec[i-1]);
+		result = result.replace(p, 2, strVec[i]);
 	}
 	return result;
 };
+
+int SqlPackage::addNewAccount(string id, string name, string type){
+	string sqlTemplage = "insert into t_account(id,NAME,TYPE)VALUES('$1','$2','$3')";
+	sqlTemplage = makeSql(sqlTemplage, { "123133", "test47", "teacher" });
+	cout << sqlTemplage << endl;
+	int res = exec(sqlTemplage);
+	return res;
+}

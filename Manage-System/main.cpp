@@ -1,3 +1,4 @@
+#pragma once
 #include<iostream>
 #include<stdio.h>
 #include<string>
@@ -6,7 +7,7 @@
 #include<mysql.h>
 #include<windows.h>
 
-#include"mysql-package.h"
+#include"SqlPackage.h"
 #include"teacher.h"
 #include"manager.h"
 #include"student.h"
@@ -40,8 +41,11 @@ int login(){
 		if (status!=WORNG) {
 			return status;
 		}
-		printf("Sorry, no such account or password worng! \n");
+		puts("Sorry, no such account or password worng, please try againt!");
 	}
+	puts("Password not right ! input anything to continue....");
+	string tmp;
+	cin >> tmp;
 	return WORNG;
 }
 
@@ -60,8 +64,7 @@ void printfWelcome(){
 int main(){
 	//sql.testQuery();
 	//sql.testExec();
-	sql.testOther();
-
+//	sql.testOther();
 	return 0;
 	printfWelcome();
 	int status;

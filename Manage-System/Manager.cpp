@@ -1,15 +1,24 @@
+#pragma once
 #include<stdio.h>
 #include<iostream>
 #include<string>
 #include<Windows.h>
 
 #include"manager.h"
+
+
+#define SCUUEED 1
+#define FATAL	-1
+#define	WORNG	-2
+#define TEACHER 3
+#define	STUDENT	9
+#define MANAGER	27
+
 using namespace std;
 
 void Manager::test(){
 	printf("Manager work!\n");
 }
-
 
 int Manager::run(){
 	string input="";
@@ -38,11 +47,14 @@ int Manager::addAccount(){
 	cin >> name;
 	printf("Please input the type of it account: > ");
 	cin >> type;
-
-	int result = 1;
-	//do somthing
-
-	return result;
+	int res = SCUUEED;
+	if (res == SCUUEED){
+		puts("Create account scuueed!");
+	}
+	else{
+		puts("Create account fall!");
+	}
+	return res;
 }
 
 void Manager::checkStatic(){

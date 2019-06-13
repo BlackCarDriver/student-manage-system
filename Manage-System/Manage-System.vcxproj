@@ -82,7 +82,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="manager.h" />
-    <ClInclude Include="mysql-package.h" />
+    <ClInclude Include="SqlPackage.h" />
     <ClInclude Include="student.h" />
     <ClInclude Include="teacher.h" />
   </ItemGroup>
