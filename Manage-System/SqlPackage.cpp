@@ -28,10 +28,10 @@ MYSQL SqlPackage::conn;
 bool SqlPackage::isInit = false;
 
 SqlPackage::SqlPackage(){
-	int res = init();
+	int res = init();	//init will return false when connect fall
 	if (res == FATAL){
 		exit(1);
-	}
+	} 
 }
 
 SqlPackage::~SqlPackage(){
@@ -56,6 +56,7 @@ int SqlPackage::init(){
 	return	SCUUEED;
 }
 
+// the funtion name with test*() mainly purpose on testing the work of it package function. 
 void SqlPackage::testQuery(){
 	string queryStr = "select * from t_account";
 	string result = query(queryStr, 15);
@@ -79,6 +80,8 @@ void SqlPackage::testOther(){
 
 }
 
+//query() use to exec a select sql and it will return a string to describe the table you are query.
+//you can use interval to set the distant between two column
 string SqlPackage::query(string queryStr, int interval){
 	int status = mysql_query(&conn, queryStr.c_str());
 	if (status != 0){
@@ -104,6 +107,7 @@ string SqlPackage::query(string queryStr, int interval){
 	return result;
 }
 
+//queryRow() user to exec some sql that only return a row of result, such as select count(*)
 res_row SqlPackage::queryRow(string queryStr){
 	res_row result;
 	int status = mysql_query(&conn, queryStr.c_str());
@@ -125,6 +129,7 @@ res_row SqlPackage::queryRow(string queryStr){
 	return result;
 }
 
+//getTableHead return the name of columns, it is a private function used by query()
 string SqlPackage::getTableHead(MYSQL_RES* res, int interval){
 	string tableHead = "";
 	int colNum = mysql_num_fields(res);
@@ -142,6 +147,8 @@ string SqlPackage::getTableHead(MYSQL_RES* res, int interval){
 	return tableHead;
 }
 
+//exec() mainly execu some sql command that just return scuueed or fatal. 
+//you can use it to execu insert, delete update command and so on..
 int SqlPackage::exec(string ope){
 	if (mysql_query(&conn, ope.c_str())){
 		return FATAL;
@@ -149,7 +156,7 @@ int SqlPackage::exec(string ope){
 	return SCUUEED;
 }
 
-//return worng or the identifi of user
+//it function used by main(), you can identify user type by the return result
 int SqlPackage::login(string id, string password){
 	int result = WORNG;
 	string loginTemplace = "select type from t_account where id = '$1' and password = '$2'";
@@ -168,6 +175,7 @@ int SqlPackage::login(string id, string password){
 	return result;
 }
 
+//it is a userful function, format is the template of a sql, strVec is the container of args
 string SqlPackage::makeSql(string format, vector<string> strVec){
 	string result = format;
 	for (int i = 0; i < strVec.size(); i++){
@@ -178,6 +186,7 @@ string SqlPackage::makeSql(string format, vector<string> strVec){
 	return result;
 };
 
+//printTable is used to execute some selete command that you are sure it will not go worng
 void SqlPackage::printTable(string ope, int interval){
 	string table = query(ope, interval);
 	cout << table;

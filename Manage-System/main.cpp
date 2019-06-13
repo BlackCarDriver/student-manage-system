@@ -24,6 +24,8 @@ Teacher teacher;
 Manager manager;
 Student student;
 
+//Account mainly used to save the id of the user. 
+//Account.id will be used very frequently by Teacher and Student class.
 struct Account {
 	string id;
 	string password;
@@ -41,7 +43,6 @@ void printfWelcome(){
 	char block[100];
 	cin.getline(block, 99);
 }
-
 
 int login(){
 	system("cls");
