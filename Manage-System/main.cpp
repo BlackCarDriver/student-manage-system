@@ -30,6 +30,19 @@ struct Account {
 }account;
 
 
+void printfWelcome(){
+	system("cls");
+	puts("========================================================");
+	puts("=                                                      =");
+	puts("=         Welcome to BlackCarDriver Club System        =");
+	puts("=                                                      =");
+	puts("========================================================");
+	puts("input any key to continue ...");
+	char block[100];
+	cin.getline(block, 99);
+}
+
+
 int login(){
 	system("cls");
 	printf("Please Input your account: > ");
@@ -38,7 +51,7 @@ int login(){
 		printf("Please Input your password: > ");
 		cin >> account.password;
 		int status = sql.login(account.id, account.password);
-		if (status!=WORNG) {
+		if (status != WORNG) {
 			return status;
 		}
 		puts("Sorry, no such account or password worng, please try againt!");
@@ -49,34 +62,27 @@ int login(){
 	return WORNG;
 }
 
-void printfWelcome(){
-	system("cls");
-	puts("========================================================");
-	puts("=                                                      =");
-	puts("=         Welcome to BlackCarDriver Club System        =");
-	puts("=                                                      =");
-	puts("========================================================");
-	puts("input any key to continue ...");
-	string block;
-	cin >> block;
-}
-
 int main(){
 	//sql.testQuery();
 	//sql.testExec();
-//	sql.testOther();
-	return 0;
+	//sql.testOther();
+	//return 0;
 	printfWelcome();
 	int status;
 	while (status = login()){
+		system("cls");
+		cout << status<<"###\n";
 		switch (status){
 		case STUDENT:
+			student.setId(account.id);
 			student.run();
 			break;
 		case TEACHER:
+			teacher.setId(account.id);
 			teacher.run();
 			break;
 		case MANAGER:
+		  	manager.setId(account.id);
 			manager.run();
 			break;
 		default:

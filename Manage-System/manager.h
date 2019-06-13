@@ -1,10 +1,12 @@
 #pragma once
-class Manager{
+class Manager : private SqlPackage{
 private:
 	void printfFunction();
+	string id;
 public:
+	void setId(string id);
 	void test();
 	int run();
-	int addAccount();
+	void addAccount();
 	void checkStatic();
 };

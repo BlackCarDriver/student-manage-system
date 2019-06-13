@@ -16,15 +16,16 @@ using namespace std;
 #define	STUDENT	9
 #define MANAGER	27
 
-
+//config of database connection
 const char* host = "localhost";
 const char* user = "root";
 const char* password = "123456";
 const char* database = "school";
 const  int port = 3306;
 
-
-
+//static munber
+MYSQL SqlPackage::conn;
+bool SqlPackage::isInit = false;
 
 SqlPackage::SqlPackage(){
 	int res = init();
@@ -38,6 +39,12 @@ SqlPackage::~SqlPackage(){
 }
 
 int SqlPackage::init(){
+	if (isInit){
+		return SCUUEED;
+	}
+	else {
+		isInit = true;
+	}
 	mysql_init(&conn);
 	bool is_scueed = mysql_real_connect(&conn, host, user, password, database, port, NULL, 0);
 	if (!is_scueed){
@@ -69,7 +76,7 @@ void SqlPackage::testExec(){
 }
 
 void SqlPackage::testOther(){
-	cout << "test other \n";
+
 }
 
 string SqlPackage::query(string queryStr, int interval){
@@ -152,7 +159,7 @@ int SqlPackage::login(string id, string password){
 		cout << res[0] << endl;
 		if (res[0] == "teacher") result = TEACHER;
 		if (res[0] == "student") result = STUDENT;
-		if (res[0] == "manager") result == MANAGER;
+		if (res[0] == "manager") result = MANAGER;
 	}
 	else{
 		puts("Password worng or account not exist...");
@@ -171,10 +178,12 @@ string SqlPackage::makeSql(string format, vector<string> strVec){
 	return result;
 };
 
-int SqlPackage::addNewAccount(string id, string name, string type){
-	string sqlTemplage = "insert into t_account(id,NAME,TYPE)VALUES('$1','$2','$3')";
-	sqlTemplage = makeSql(sqlTemplage, { "123133", "test47", "teacher" });
-	cout << sqlTemplage << endl;
-	int res = exec(sqlTemplage);
-	return res;
+void SqlPackage::printTable(string ope, int interval){
+	string table = query(ope, interval);
+	cout << table;
+}
+
+int SqlPackage::insert(string insertSql){
+	int result = exec(insertSql);
+	return result;
 }

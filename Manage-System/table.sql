@@ -81,3 +81,18 @@ INSERT INTO t_select(stdid,courid)VALUES('1234561','00003');
 
 ---#########################################################
 
+CREATE VIEW v_grade AS
+SELECT a.`id`, a.`name` AS student_name, c.`teacherid` AS teacher_id, c.`name` AS course_name, g.`grade` AS grade
+FROM t_grade AS g, t_course AS c, t_account AS a
+WHERE a.`id`=g.`student_id` AND g.`course_id`=c.`id`;
+
+
+CREATE VIEW v_select AS
+SELECT s.`stdid` AS student_id, c.`id` AS course_id, c.`name` AS course_name, c.`teacherid` AS teacher_id FROM t_select AS s, t_course AS c
+WHERE s.`courid`=c.`id`;
+
+
+CREATE VIEW v_studentList AS
+SELECT a.`name` AS student_name,c.`name` AS course_name, c.`teacherid` AS teacher_id
+FROM t_account AS a, t_select AS s,t_course AS c
+WHERE a.`id` =s.`stdid` AND s.`courid`=c.`id`;

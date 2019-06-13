@@ -3,9 +3,11 @@
 #include<iostream>
 #include<string>
 #include<Windows.h>
+#include<winsock.h>
+#include<mysql.h>
 
+#include"SqlPackage.h"
 #include"manager.h"
-
 
 #define SCUUEED 1
 #define FATAL	-1
@@ -15,6 +17,10 @@
 #define MANAGER	27
 
 using namespace std;
+
+void Manager::setId(string id){
+	this->id = id;
+}
 
 void Manager::test(){
 	printf("Manager work!\n");
@@ -26,12 +32,10 @@ int Manager::run(){
 		printfFunction();
 		cin >> input;
 		if (input == "addAccount"){
-			cout << input << endl;
 			addAccount();
 			continue;
 		}
 		if (input == "checkStatic"){
-			cout << input << endl;
 			checkStatic();
 			continue;
 		}
@@ -39,7 +43,7 @@ int Manager::run(){
 	return 0;
 }
 
-int Manager::addAccount(){
+void Manager::addAccount(){
 	string id, name, type;
 	printf("Please input the id of new account: > ");
 	cin >> id;
@@ -47,18 +51,28 @@ int Manager::addAccount(){
 	cin >> name;
 	printf("Please input the type of it account: > ");
 	cin >> type;
-	int res = SCUUEED;
+	string sqlTemplage = "insert into t_account(id,NAME,TYPE)VALUES('$1','$2','$3')";
+	sqlTemplage = makeSql(sqlTemplage, { id, name, type });
+	int res = SqlPackage::exec(sqlTemplage);
 	if (res == SCUUEED){
 		puts("Create account scuueed!");
 	}
 	else{
 		puts("Create account fall!");
 	}
-	return res;
+	puts("input anything to continue");
+	char block[100];
+	cin.ignore();
+	cin.getline(block, 99);
 }
 
 void Manager::checkStatic(){
-	//do somthing
+	string checkSql = "SELECT TYPE AS usertype, COUNT(*) AS numbers FROM t_account GROUP BY TYPE";
+	SqlPackage::printTable(checkSql);
+	puts("input anything to continue");
+	char block[100];
+	cin.ignore();
+	cin.getline(block, 99);
 }
 
 

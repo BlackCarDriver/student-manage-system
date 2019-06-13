@@ -7,22 +7,25 @@ typedef vector<string> res_row;
 
 class SqlPackage {
 private:
-	MYSQL		conn;
+	static MYSQL conn;
+	static bool isInit;
 	MYSQL_RES	*res_set;
 	MYSQL_ROW	row;
 	MYSQL_FIELD *field;
 	int init();
-	string getTableHead(MYSQL_RES* res, int interval);
 	string query(string ope, int interval);
-	res_row queryRow(string ope);
-	int exec(string ope);
-	string makeSql(string format, vector<string> strVec);
+	string getTableHead(MYSQL_RES* res, int interval);
 public:
 	SqlPackage();
 	~SqlPackage();
 	void testQuery();
 	void testExec();
 	void testOther();
-	int addNewAccount(string id, string name, string type);
+	res_row queryRow(string ope);
+	int exec(string ope);
+	string makeSql(string format, vector<string> strVec);
+	int insert(string insertSql);
 	int login(string id, string password);
+	void printTable(string ope, int interval=20);
 };
+
